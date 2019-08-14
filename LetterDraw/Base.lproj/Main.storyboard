@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="LetterDraw" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="vRd-et-i5I">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="906"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q5i-UW-XSk" customClass="DrawView" customModule="DrawMyNumber" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="656"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="7Kt-qC-YT1" userLabel="Buttons">
+                                        <rect key="frame" x="0.0" y="656" width="414" height="50"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q8f-57-U7N">
+                                                <rect key="frame" x="0.0" y="0.0" width="207" height="50"/>
+                                                <state key="normal" title="Clear"/>
+                                                <connections>
+                                                    <action selector="clearTapped" destination="BYZ-38-t0r" eventType="touchUpInside" id="f8X-aN-JwV"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sZ3-zn-pAW">
+                                                <rect key="frame" x="207" y="0.0" width="207" height="50"/>
+                                                <state key="normal" title="Predict"/>
+                                                <connections>
+                                                    <action selector="predictTapped" destination="BYZ-38-t0r" eventType="touchUpInside" id="fpc-Mo-Bdy"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="pUN-il-T2S"/>
+                                        </constraints>
+                                    </stackView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ybZ-Ed-yJL">
+                                        <rect key="frame" x="0.0" y="706" width="414" height="200"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vNU-bt-dJU">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="200"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="150"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="vNU-bt-dJU" firstAttribute="leading" secondItem="ybZ-Ed-yJL" secondAttribute="leading" id="2I2-hf-L9b"/>
+                                            <constraint firstAttribute="height" constant="200" id="3Da-yP-xsT"/>
+                                            <constraint firstAttribute="trailing" secondItem="vNU-bt-dJU" secondAttribute="trailing" id="I94-9e-rlo"/>
+                                            <constraint firstAttribute="bottom" secondItem="vNU-bt-dJU" secondAttribute="bottom" id="YGd-ns-5aY"/>
+                                            <constraint firstItem="vNU-bt-dJU" firstAttribute="top" secondItem="ybZ-Ed-yJL" secondAttribute="top" id="od4-XL-uGF"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="7Kt-qC-YT1" firstAttribute="width" secondItem="vRd-et-i5I" secondAttribute="width" id="RFc-gD-hV2"/>
+                                    <constraint firstItem="q5i-UW-XSk" firstAttribute="width" secondItem="vRd-et-i5I" secondAttribute="width" id="Wk6-X0-nrZ"/>
+                                    <constraint firstItem="ybZ-Ed-yJL" firstAttribute="width" secondItem="vRd-et-i5I" secondAttribute="width" id="cUZ-lb-9Eu"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="vRd-et-i5I" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="ayU-tx-4df"/>
+                            <constraint firstItem="vRd-et-i5I" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="hLX-KW-JQl"/>
+                            <constraint firstItem="vRd-et-i5I" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="j5t-dL-HuE"/>
+                            <constraint firstItem="vRd-et-i5I" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" constant="10" id="kOq-SN-xWc"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="drawView" destination="q5i-UW-XSk" id="La1-wQ-0f6"/>
+                        <outlet property="predictLabel" destination="vNU-bt-dJU" id="cxc-Wm-iOw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+</document>
