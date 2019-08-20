@@ -15,7 +15,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var drawView: DrawView!
     @IBOutlet weak var predictLabel: UILabel!
     
-    var currentPredictionString: String?
+    var currentPredictionString: String = ""
+    
     lazy var highlightLayer: CALayer = {
         let layer = CALayer()
         layer.bounds = .zero
@@ -24,15 +25,53 @@ class ViewController: UIViewController {
         return layer
     }()
     
-    lazy var classificationRequest: VNCoreMLRequest = {
-        // Load the ML model through its generated class and create a Vision request for it.
-        do {
-            let model = try VNCoreMLModel(for: MNISTLetterClassifer().model)
-            return VNCoreMLRequest(model: model, completionHandler: handleClassification)
-        } catch {
-            fatalError("Can't load Vision ML model: \(error).")
-        }
+    lazy var mnistModel: VNCoreMLModel = {
+        return try! VNCoreMLModel(for: MNISTLetterClassifer().model)
     }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        predictLabel.isHidden = true
+        predictLabel.isUserInteractionEnabled = true
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(showPredictions))
+        predictLabel.addGestureRecognizer(tap)
+        drawView.layer.addSublayer(highlightLayer)
+    }
+    
+    @objc func showPredictions() {
+        let alert = UIAlertController(title: "Top Predictions", message: currentPredictionString, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Got it", style: .default, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
+    @IBAction func clearTapped() {
+        drawView.lines = []
+        drawView.setNeedsDisplay()
+        predictLabel.isHidden = true
+    }
+    
+    @IBAction func predictTapped() {
+        guard let context = drawView.getViewContext(),
+            let inputImage = context.makeImage()
+            else { fatalError("Get context or make image failed.") }
+//        findCharacterBounds(inputImage)
+        predictLetter(inputImage)
+    }
+}
+
+// MARK: - Predict Letter in Image
+
+extension ViewController {
+    func predictLetter(_ image: CGImage) {
+        let ciImage = CIImage(cgImage: image)
+        let handler = VNImageRequestHandler(ciImage: ciImage)
+        let request = VNCoreMLRequest(model: mnistModel, completionHandler: handleClassification)
+        DispatchQueue.global(qos: .userInteractive).async {
+            do { try handler.perform([request]) } catch {
+                print(error as Any)
+            }
+        }
+    }
     
     func handleClassification(request: VNRequest, error: Error?) {
         guard let observations = request.results as? [VNClassificationObservation]
@@ -64,71 +103,42 @@ class ViewController: UIViewController {
             self.predictLabel.isHidden = false
         }
         
-        // DEBUG TOP 5 RESULTS
+        // TRACK TOP 5 RESULTS
         let sortedObservations = observations.sorted(by: {$0.confidence > $1.confidence})
         let top5 = sortedObservations.prefix(5).map({
             "\($0.identifier) = \($0.confidence)"
         })
         currentPredictionString = top5.joined(separator: "\n")
         print("TOP 5")
-        print(currentPredictionString!)
+        print(currentPredictionString)
     }
-    
-    // TODO: Define lazy var classificationRequest
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        predictLabel.isHidden = true
-        predictLabel.isUserInteractionEnabled = true
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(showPredictions))
-        predictLabel.addGestureRecognizer(tap)
-        drawView.layer.addSublayer(highlightLayer)
-    }
-    
-    @objc func showPredictions() {
-        let alert = UIAlertController(title: "Top Predictions", message: currentPredictionString, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Got it", style: .default, handler: nil))
-        self.present(alert, animated: true)
-    }
-    
-    @IBAction func clearTapped() {
-        drawView.lines = []
-        drawView.setNeedsDisplay()
-        predictLabel.isHidden = true
-    }
-    
-    @IBAction func predictTapped() {
-        guard let context = drawView.getViewContext(),
-            let inputImage = context.makeImage()
-            else { fatalError("Get context or make image failed.") }
-        // TODO: Perform request on model
-        let ciImage = CIImage(cgImage: inputImage)
-        let handler = VNImageRequestHandler(ciImage: ciImage)
-        do {
-            try handler.perform([classificationRequest])
-        } catch {
-            print(error)
-        }
-    }
-    
+}
+
+// MARK: - Find Character Bounds in Image
+
+extension ViewController {
     func findCharacterBounds(_ image: CGImage) {
-        let ciImage = CIImage(cgImage: image)
-        let handler = VNImageRequestHandler(ciImage: ciImage, options: [VNImageOption: Any]())
-        let request = VNDetectTextRectanglesRequest(completionHandler: { [weak self] request, error in
-            guard let results = request.results as? [VNTextObservation] else { return }
+        let handler = VNImageRequestHandler(cgImage: image, options: [:])
+        
+        // Vision text rectangle
+        let request = VNDetectTextRectanglesRequest(completionHandler: { [weak self] (request, _) in
+            guard let observations = request.results else { print("no result"); return }
+            guard let results = observations as? [VNRecognizedObjectObservation] else { return }
             DispatchQueue.main.async {
-                self?.highlightCharacter(using: results)
+                self?.drawVisionRequestResults(results)
             }
+            
         })
         request.reportCharacterBoxes = true
-        do {
-            try handler.perform([request])
-        } catch {
-            print(error as Any)
+        
+        DispatchQueue.global(qos: .userInteractive).async {
+            do { try handler.perform([request]) } catch {
+                print(error as Any)
+            }
         }
     }
     
-    func highlightCharacter(using results: [VNTextObservation]) {
+    func drawVisionRequestResults(_ results: [VNRecognizedObjectObservation]) {
         let topResult = results.first!
         do {
             var transform = CGAffineTransform.identity
