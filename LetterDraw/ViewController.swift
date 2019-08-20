@@ -36,6 +36,8 @@ class ViewController: UIViewController {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(showPredictions))
         predictLabel.addGestureRecognizer(tap)
         drawView.layer.addSublayer(highlightLayer)
+        let cv = OpenCVManager()
+        print("LET ME SING IT BABY ********* \(cv.openCVVersionString())")
     }
     
     @objc func showPredictions() {
@@ -56,6 +58,10 @@ class ViewController: UIViewController {
             else { fatalError("Get context or make image failed.") }
 //        findCharacterBounds(inputImage)
         predictLetter(inputImage)
+        
+        // OPENCV EXPERIMENT
+        let cv = OpenCVManager()
+        cv.boundingRect(for: UIImage(cgImage: inputImage))
     }
 }
 

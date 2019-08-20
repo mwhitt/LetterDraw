@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C927DE18230C1F8500045B80 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C927DE17230C1F8500045B80 /* opencv2.framework */; };
+		C927DE1B230C200C00045B80 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C927DE1A230C200C00045B80 /* AVFoundation.framework */; };
+		C927DE1D230C201400045B80 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C927DE1C230C201400045B80 /* AssetsLibrary.framework */; };
+		C927DE1F230C201E00045B80 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C927DE1E230C201E00045B80 /* CoreMedia.framework */; };
+		C927DE23230C21F500045B80 /* OpenCVManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = C927DE22230C21F500045B80 /* OpenCVManager.mm */; };
 		C93325F823034B83007F3F3A /* MNISTLetterClassifer.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = C93325F723034B83007F3F3A /* MNISTLetterClassifer.mlmodel */; };
 		C997849923030F6400FECA7B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C997849823030F6400FECA7B /* AppDelegate.swift */; };
 		C997849B23030F6400FECA7B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C997849A23030F6400FECA7B /* ViewController.swift */; };
@@ -17,6 +22,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C927DE17230C1F8500045B80 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
+		C927DE1A230C200C00045B80 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		C927DE1C230C201400045B80 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		C927DE1E230C201E00045B80 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		C927DE20230C21F400045B80 /* LetterDraw-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LetterDraw-Bridging-Header.h"; sourceTree = "<group>"; };
+		C927DE21230C21F500045B80 /* OpenCVManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenCVManager.h; sourceTree = "<group>"; };
+		C927DE22230C21F500045B80 /* OpenCVManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVManager.mm; sourceTree = "<group>"; };
 		C93325F723034B83007F3F3A /* MNISTLetterClassifer.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MNISTLetterClassifer.mlmodel; sourceTree = "<group>"; };
 		C997849523030F6400FECA7B /* LetterDraw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetterDraw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C997849823030F6400FECA7B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -33,17 +45,32 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C927DE1F230C201E00045B80 /* CoreMedia.framework in Frameworks */,
+				C927DE1D230C201400045B80 /* AssetsLibrary.framework in Frameworks */,
+				C927DE1B230C200C00045B80 /* AVFoundation.framework in Frameworks */,
+				C927DE18230C1F8500045B80 /* opencv2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C927DE19230C200C00045B80 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C927DE1E230C201E00045B80 /* CoreMedia.framework */,
+				C927DE1C230C201400045B80 /* AssetsLibrary.framework */,
+				C927DE1A230C200C00045B80 /* AVFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		C997848C23030F6400FECA7B = {
 			isa = PBXGroup;
 			children = (
 				C997849723030F6400FECA7B /* LetterDraw */,
 				C997849623030F6400FECA7B /* Products */,
+				C927DE19230C200C00045B80 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -66,6 +93,10 @@
 				C99784A123030F6500FECA7B /* LaunchScreen.storyboard */,
 				C99784A423030F6500FECA7B /* Info.plist */,
 				C93325F723034B83007F3F3A /* MNISTLetterClassifer.mlmodel */,
+				C927DE17230C1F8500045B80 /* opencv2.framework */,
+				C927DE21230C21F500045B80 /* OpenCVManager.h */,
+				C927DE22230C21F500045B80 /* OpenCVManager.mm */,
+				C927DE20230C21F400045B80 /* LetterDraw-Bridging-Header.h */,
 			);
 			path = LetterDraw;
 			sourceTree = "<group>";
@@ -102,6 +133,7 @@
 				TargetAttributes = {
 					C997849423030F6400FECA7B = {
 						CreatedOnToolsVersion = 10.3;
+						LastSwiftMigration = 1030;
 					};
 				};
 			};
@@ -143,6 +175,7 @@
 			files = (
 				C997849B23030F6400FECA7B /* ViewController.swift in Sources */,
 				C997849923030F6400FECA7B /* AppDelegate.swift in Sources */,
+				C927DE23230C21F500045B80 /* OpenCVManager.mm in Sources */,
 				C99784AB2303115600FECA7B /* DrawView.swift in Sources */,
 				C93325F823034B83007F3F3A /* MNISTLetterClassifer.mlmodel in Sources */,
 			);
@@ -290,8 +323,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 47BH59G3XX;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/LetterDraw",
+				);
 				INFOPLIST_FILE = LetterDraw/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -299,6 +337,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.1sv.LetterDraw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "LetterDraw/LetterDraw-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -308,8 +348,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 47BH59G3XX;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/LetterDraw",
+				);
 				INFOPLIST_FILE = LetterDraw/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -317,6 +362,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.1sv.LetterDraw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "LetterDraw/LetterDraw-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

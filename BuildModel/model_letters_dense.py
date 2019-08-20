@@ -125,7 +125,7 @@ def build_convnet():
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.3))
     model.add(Flatten())
-    model.add(Dense(128, activation='relu'))
+    model.add(Dense(512, activation='relu'))
     model.add(Dropout(0.4))
     model.add(Dense(number_of_classes, activation='softmax'))
 

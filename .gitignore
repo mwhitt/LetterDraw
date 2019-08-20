@@ -92,3 +92,6 @@ iOSInjectionProject/
 # Keep data dir out of model scripts 
 
 BuildModel/data/*csv
+
+# Ignore OpenCV Framework
+opencv2.framework/
