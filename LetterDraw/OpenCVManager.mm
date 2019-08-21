@@ -21,8 +21,6 @@ using namespace std;
 
 @implementation OpenCVManager
 
-RNG rng(12345);
-
 -(NSString *) openCVVersionString
 {
     return [NSString stringWithFormat:@"OpenCV Version %s", CV_VERSION];
@@ -47,24 +45,27 @@ RNG rng(12345);
         boundRect[i] = boundingRect( contours_poly[i] );
     }
     
-    double maxX = 0; double maxY = 0;
-    double maxWidth = 0; double maxHeight = 0;
+    float minX = 0; float minY = 0; float maxY = 0; float maxX = 0;
+    
+    Mat drawing = Mat::zeros( canny_output.size(), CV_8UC3 );
     
     for( size_t i = 0; i< contours.size(); i++ )
     {
         cv::Rect rect = boundRect[i];
-        if (rect.width > maxWidth) { maxWidth = rect.width; }
-        if (rect.height > maxHeight) { maxHeight = rect.height; }
-        if (rect.x > maxX) { maxX = rect.x; }
-        if (rect.y > maxY) { maxY = rect.y; }
+        cv::Point tl = rect.tl();
+        cv::Point br = rect.br();
+        
+        if (tl.x < minX || minX == 0) { minX = tl.x; }
+        if (tl.y < minY || minY == 0) { minY = tl.y; }
+        if (br.y > maxY || maxY == 0) { maxY = br.y; }
+        if (br.x > maxX || maxX == 0) { maxX = br.x; }
     }
     
-    NSDictionary *results = @{ @"maxX": [NSNumber numberWithDouble: maxX],
-                               @"maxY": [NSNumber numberWithDouble: maxY],
-                               @"maxWidth": [NSNumber numberWithDouble: maxWidth],
-                               @"maxHeight": [NSNumber numberWithDouble: maxHeight] };
+    NSDictionary *results = @{ @"minX": [NSNumber numberWithFloat: minX],
+                               @"minY": [NSNumber numberWithFloat: minY],
+                               @"maxWidth": [NSNumber numberWithFloat: maxX - minX],
+                               @"maxHeight": [NSNumber numberWithFloat: maxY - minY] };
     
-    NSLog(@"** DEBUG: Bounding Rect: %@", results);
     return results;
 }
 

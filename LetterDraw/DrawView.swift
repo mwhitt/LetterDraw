@@ -77,6 +77,22 @@ class DrawView: UIView {
             layer.render(in: rendererContext.cgContext)
         }
     }
+    
+    func crop(using rect: CGRect) -> UIImage {
+        let view = UIView(frame: rect)
+        view.backgroundColor = .clear
+        addSubview(view)
+        bringSubviewToFront(view)
+
+        view.bounds = convert(rect, to: self)
+        view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+        defer { view.removeFromSuperview() }
+        
+        let renderer = UIGraphicsImageRenderer(bounds: view.frame)
+        return renderer.image { rendererContext in
+            layer.render(in: rendererContext.cgContext)
+        }
+    }
 }
 
 /**

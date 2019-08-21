@@ -56,13 +56,26 @@ class ViewController: UIViewController {
         guard let context = drawView.getViewContext(),
             let inputImage = context.makeImage()
             else { fatalError("Get context or make image failed.") }
-//        findCharacterBounds(inputImage)
-        predictLetter(inputImage)
-        
+
         // OPENCV EXPERIMENT
         let cv = OpenCVManager()
         let results = cv.boundingRect(for: drawView.asImage())
-        print(results)
+        guard
+            let minX = results["minX"] as? NSNumber,
+            let minY = results["minY"] as? NSNumber,
+            let maxWidth = results["maxWidth"] as? NSNumber,
+            let maxHeight = results["maxHeight"] as? NSNumber
+            else { return }
+        
+        let boundingRect = CGRect(
+            x: CGFloat(minX.floatValue) / UIScreen.main.scale,
+            y: CGFloat(minY.floatValue) / UIScreen.main.scale,
+            width: CGFloat(maxWidth.floatValue) / UIScreen.main.scale,
+            height: CGFloat(maxHeight.floatValue) / UIScreen.main.scale
+        )
+        let croppedImage = drawView.crop(using: boundingRect)
+        let normalized = croppedImage.normalizedSize.grayscale
+        predictLetter(normalized.cgImage!)
     }
 }
 
