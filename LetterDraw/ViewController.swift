@@ -36,8 +36,6 @@ class ViewController: UIViewController {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(showPredictions))
         predictLabel.addGestureRecognizer(tap)
         drawView.layer.addSublayer(highlightLayer)
-        let cv = OpenCVManager()
-        print("LET ME SING IT BABY ********* \(cv.openCVVersionString())")
     }
     
     @objc func showPredictions() {
@@ -53,11 +51,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func predictTapped() {
-        guard let context = drawView.getViewContext(),
-            let inputImage = context.makeImage()
-            else { fatalError("Get context or make image failed.") }
-
-        // OPENCV EXPERIMENT
+        // Crop image -> Scale -> Grayscale -> ML prediction
         let cv = OpenCVManager()
         let results = cv.boundingRect(for: drawView.asImage())
         guard
@@ -73,6 +67,7 @@ class ViewController: UIViewController {
             width: CGFloat(maxWidth.floatValue) / UIScreen.main.scale,
             height: CGFloat(maxHeight.floatValue) / UIScreen.main.scale
         )
+        
         let croppedImage = drawView.crop(using: boundingRect)
         let normalized = croppedImage.normalizedSize.grayscale
         predictLetter(normalized.cgImage!)

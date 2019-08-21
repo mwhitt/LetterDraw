@@ -19,10 +19,12 @@ extension UIImage {
         imageView.backgroundColor = .black
         imageView.image = self
         imageView.contentMode = .scaleAspectFit
-        UIGraphicsBeginImageContextWithOptions(newSize, true, UIScreen.main.scale)
+        
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1)
         imageView.layer.render(in: UIGraphicsGetCurrentContext()!)
         let img = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
+        
         return img!
     }
     

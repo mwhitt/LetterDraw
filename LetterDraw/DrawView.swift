@@ -85,7 +85,7 @@ class DrawView: UIView {
         bringSubviewToFront(view)
 
         view.bounds = convert(rect, to: self)
-        view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+        view.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
         defer { view.removeFromSuperview() }
         
         let renderer = UIGraphicsImageRenderer(bounds: view.frame)
