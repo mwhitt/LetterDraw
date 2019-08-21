@@ -21,7 +21,6 @@ using namespace std;
 
 @implementation OpenCVManager
 
-int thresh = 100;
 RNG rng(12345);
 
 -(NSString *) openCVVersionString
@@ -35,38 +34,38 @@ RNG rng(12345);
     UIImageToMat(image, img);
     
     Mat canny_output;
-    Canny( img, canny_output, thresh, thresh*2 );
+    Canny( img, canny_output, 0, 100, 3 );
     vector<vector<cv::Point> > contours;
     findContours( canny_output, contours, RETR_TREE, CHAIN_APPROX_SIMPLE );
     
     vector<vector<cv::Point> > contours_poly( contours.size() );
     vector<cv::Rect> boundRect( contours.size() );
-    vector<Point2f>centers( contours.size() );
-    vector<float>radius( contours.size() );
     
     for( size_t i = 0; i < contours.size(); i++ )
     {
         approxPolyDP( contours[i], contours_poly[i], 3, true );
         boundRect[i] = boundingRect( contours_poly[i] );
-        minEnclosingCircle( contours_poly[i], centers[i], radius[i] );
     }
     
-    Mat drawing = Mat::zeros( canny_output.size(), CV_8UC3 );
+    double maxX = 0; double maxY = 0;
+    double maxWidth = 0; double maxHeight = 0;
     
     for( size_t i = 0; i< contours.size(); i++ )
     {
-        Scalar color = Scalar( rng.uniform(0, 256), rng.uniform(0,256), rng.uniform(0,256) );
-        drawContours( drawing, contours_poly, (int)i, color );
-        rectangle( drawing, boundRect[i].tl(), boundRect[i].br(), color, 2 );
-        circle( drawing, centers[i], (int)radius[i], color, 2 );
+        cv::Rect rect = boundRect[i];
+        if (rect.width > maxWidth) { maxWidth = rect.width; }
+        if (rect.height > maxHeight) { maxHeight = rect.height; }
+        if (rect.x > maxX) { maxX = rect.x; }
+        if (rect.y > maxY) { maxY = rect.y; }
     }
     
-    UIImage *output = MatToUIImage(drawing);
-    NSLog(@"DONE");
+    NSDictionary *results = @{ @"maxX": [NSNumber numberWithDouble: maxX],
+                               @"maxY": [NSNumber numberWithDouble: maxY],
+                               @"maxWidth": [NSNumber numberWithDouble: maxWidth],
+                               @"maxHeight": [NSNumber numberWithDouble: maxHeight] };
     
-    // MOCK RETURN VALUES
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    return [[NSDictionary alloc] initWithDictionary:dict];
+    NSLog(@"** DEBUG: Bounding Rect: %@", results);
+    return results;
 }
 
 @end
