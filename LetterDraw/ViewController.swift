@@ -61,7 +61,8 @@ class ViewController: UIViewController {
         
         // OPENCV EXPERIMENT
         let cv = OpenCVManager()
-        cv.boundingRect(for: UIImage(cgImage: inputImage))
+        let results = cv.boundingRect(for: drawView.asImage())
+        print(results)
     }
 }
 

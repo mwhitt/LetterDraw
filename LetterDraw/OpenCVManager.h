@@ -13,8 +13,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OpenCVManager : NSObject
-    -(NSString *) openCVVersionString;
-    -(NSDictionary *) boundingRectFor:(UIImage *)image;
+    - (NSString *)openCVVersionString;
+    - (NSDictionary *)boundingRectFor:(UIImage *)image;
 @end
 
 NS_ASSUME_NONNULL_END
