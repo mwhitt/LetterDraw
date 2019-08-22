@@ -54,6 +54,7 @@ class ViewController: UIViewController {
         // Crop image -> Scale -> Grayscale -> ML prediction
         let cv = OpenCVManager()
         let results = cv.boundingRect(for: drawView.asImage())
+        
         guard
             let minX = results["minX"] as? NSNumber,
             let minY = results["minY"] as? NSNumber,
@@ -110,6 +111,7 @@ extension ViewController {
         case 10: labelText = "P"
         case 16: labelText = "J"
         case 4: labelText = "U"
+        case 18: labelText = "T"
         default: break
         }
         

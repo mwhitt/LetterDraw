@@ -8,7 +8,7 @@ class DrawView: UIView {
     
     // some parameters of how thick a line to draw 15 seems to work
     // and we have white drawings on black background just like MNIST needs its input
-    var linewidth = CGFloat(15) { didSet { setNeedsDisplay() } }
+    var linewidth = CGFloat(17) { didSet { setNeedsDisplay() } }
     var color = UIColor.white { didSet { setNeedsDisplay() } }
     
     // we will keep touches made by user in view in these as a record so we can draw them.

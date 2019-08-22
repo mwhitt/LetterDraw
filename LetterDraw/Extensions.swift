@@ -1,16 +1,16 @@
 import UIKit
 import AVFoundation
+import CoreGraphics
 
 extension UIImage {
     
     var grayscale: UIImage {
         let colorSpace = CGColorSpaceCreateDeviceGray()
-        let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.none.rawValue)
-        let context = CGContext(data: nil, width: Int(size.width), height: Int(size.height), bitsPerComponent: 8, bytesPerRow: 28, space: colorSpace, bitmapInfo: bitmapInfo.rawValue)
-        context?.draw(cgImage!, in: CGRect(origin: .zero, size: size))
+        let bitmapInfo = CGImageAlphaInfo.none.rawValue
+        let context = CGContext(data: nil, width: Int(size.width), height: Int(size.height), bitsPerComponent: 8, bytesPerRow: 0, space: colorSpace, bitmapInfo: bitmapInfo)
+        context!.draw(cgImage!, in: CGRect(origin: .zero, size: size))
         let imageRef = context!.makeImage()
-        let newImage = UIImage(cgImage: imageRef!)
-        return newImage
+        return UIImage(cgImage: imageRef!)
     }
     
     var normalizedSize: UIImage {
@@ -20,12 +20,11 @@ extension UIImage {
         imageView.image = self
         imageView.contentMode = .scaleAspectFit
         
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 1)
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0)
         imageView.layer.render(in: UIGraphicsGetCurrentContext()!)
         let img = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
         return img!
     }
-    
 }
