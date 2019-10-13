@@ -1,1 +1,0 @@
-Download emnist-letters-test.csv & emnist-letters-train.csv into this directory from https://www.kaggle.com/crawford/emnist
