@@ -77,6 +77,7 @@ class ViewController: UIViewController {
         
         previewImageView.image = normalized
         predictLetter(normalized.cgImage!)
+        saveImage(normalized)
     }
 }
 
@@ -172,5 +173,23 @@ extension ViewController {
             let biggerRect = rect.insetBy(dx: -rect.size.width * scaleUp, dy: -rect.size.height * scaleUp)
             highlightLayer.frame = biggerRect
         }
+    }
+}
+
+// MARK: - Save images sent to model to be used for training later
+
+extension ViewController {
+    func saveImage(_ image: UIImage) {
+        let fileManager = FileManager.default
+        let path = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent("characters")
+        if !fileManager.fileExists(atPath: path) {
+        try! fileManager.createDirectory(atPath: path, withIntermediateDirectories: true, attributes: nil)
+        }
+        let url = NSURL(string: path)
+        let imageName = NSUUID().uuidString + ".jpg"
+        let imagePath = url!.appendingPathComponent(imageName)
+        let urlString: String = imagePath!.absoluteString
+        let imageData = image.jpegData(compressionQuality: 1)
+        fileManager.createFile(atPath: urlString as String, contents: imageData, attributes: nil)
     }
 }
