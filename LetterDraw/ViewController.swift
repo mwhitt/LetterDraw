@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var drawView: DrawView!
     @IBOutlet weak var predictLabel: UILabel!
+    @IBOutlet weak var previewImageView: UIImageView!
     
     var currentPredictionString: String = ""
     
@@ -36,6 +37,7 @@ class ViewController: UIViewController {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(showPredictions))
         predictLabel.addGestureRecognizer(tap)
         drawView.layer.addSublayer(highlightLayer)
+        previewImageView.contentMode = .scaleAspectFit
     }
     
     @objc func showPredictions() {
@@ -48,6 +50,7 @@ class ViewController: UIViewController {
         drawView.lines = []
         drawView.setNeedsDisplay()
         predictLabel.isHidden = true
+        previewImageView.image = nil
     }
     
     @IBAction func predictTapped() {
@@ -71,6 +74,8 @@ class ViewController: UIViewController {
         
         let croppedImage = drawView.crop(using: boundingRect)
         let normalized = croppedImage.normalizedSize.grayscale
+        
+        previewImageView.image = normalized
         predictLetter(normalized.cgImage!)
     }
 }
